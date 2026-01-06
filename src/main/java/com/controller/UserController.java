@@ -31,40 +31,52 @@ public class UserController {
 		userEntity.setCreatedAt(LocalDate.now());
 		userRepository.save(userEntity); // insert
 
-		return "redirect:/listUser";//url
+		return "redirect:/listUser";// url
 	}
 
 	@GetMapping("listUser")
 	public String listUser(Model model) {
 		// select * from users
 		List<UserEntity> users = userRepository.findAll();
-		model.addAttribute("users",users);
+		model.addAttribute("users", users);
 		return "ListUser";
 	}
-	
+
 	@GetMapping("deleteUser")
 	public String deleteUser(Integer userId) {
-		//delete from users where userId = ? 
+		// delete from users where userId = ?
 		userRepository.deleteById(userId);
-		return "redirect:/listUser";//url
+		return "redirect:/listUser";// url
 	}
 
 	@GetMapping("viewUser")
-	public String viewUser(Integer userId,Model model) {
-		//select * from users where userId = ?
-		Optional<UserEntity> op = userRepository.findById(userId);//Optional
-		
-		if(op.isPresent()) {
-			UserEntity userEntity = op.get(); 	
-			model.addAttribute("user",userEntity);
-			
-		}else {
-			//error 
+	public String viewUser(Integer userId, Model model) {
+		// select * from users where userId = ?
+		Optional<UserEntity> op = userRepository.findById(userId);// Optional
+
+		if (op.isPresent()) {
+			UserEntity userEntity = op.get();
+			model.addAttribute("user", userEntity);
+
+		} else {
+			// error
 		}
-		
 		return "ViewUser";
 	}
-	
-	
-	
+
+	@GetMapping("editUser")
+	public String editUser(Integer userId, Model model) {
+		// select * from users where userId = ?
+		Optional<UserEntity> op = userRepository.findById(userId);// Optional
+
+		if (op.isPresent()) {
+			UserEntity userEntity = op.get();
+			model.addAttribute("user", userEntity);
+
+		} else {
+			// error
+		}
+		return "EditUser";
+	}
+
 }

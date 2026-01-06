@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.entity.UserEntity;
 import com.repository.UserRepository;
@@ -29,7 +30,7 @@ public class UserController {
 		userEntity.setCreatedAt(LocalDate.now());
 		userRepository.save(userEntity); // insert
 
-		return "Login";
+		return "redirect:/listUser";//url
 	}
 
 	@GetMapping("listUser")
@@ -38,6 +39,14 @@ public class UserController {
 		List<UserEntity> users = userRepository.findAll();
 		model.addAttribute("users",users);
 		return "ListUser";
+	}
+	
+	@GetMapping("deleteUser")
+	public String deleteUser(Integer userId) {
+		//delete from users where userId = ? 
+		userRepository.deleteById(userId);
+		return "redirect:/listUser";//url
+
 	}
 
 }

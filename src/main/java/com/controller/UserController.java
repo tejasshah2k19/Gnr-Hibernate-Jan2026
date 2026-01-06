@@ -2,6 +2,7 @@ package com.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,7 +47,24 @@ public class UserController {
 		//delete from users where userId = ? 
 		userRepository.deleteById(userId);
 		return "redirect:/listUser";//url
-
 	}
 
+	@GetMapping("viewUser")
+	public String viewUser(Integer userId,Model model) {
+		//select * from users where userId = ?
+		Optional<UserEntity> op = userRepository.findById(userId);//Optional
+		
+		if(op.isPresent()) {
+			UserEntity userEntity = op.get(); 	
+			model.addAttribute("user",userEntity);
+			
+		}else {
+			//error 
+		}
+		
+		return "ViewUser";
+	}
+	
+	
+	
 }

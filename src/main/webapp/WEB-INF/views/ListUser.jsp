@@ -42,7 +42,8 @@
 						<td>${u.email}</td>
 						<td>${u.profilePicURL}</td>
 						<td><a href="deleteUser?userId=${u.userId}">Delete</a> | 
-							<a href="viewUser?userId=${u.userId}">View</a>
+							<a href="viewUser?userId=${u.userId}">View</a> |
+							<a href="editUser?userId=${u.userId}">Edit</a> 
 						</td>
 					</tr>
 				</c:forEach>

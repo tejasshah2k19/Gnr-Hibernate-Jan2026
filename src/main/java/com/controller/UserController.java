@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,11 @@ public class UserController {
 	@Autowired
 	UserRepository userRepository;
 
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+	
+	
+	
 	@GetMapping(value = { "newUser", "newuser", "/" })
 	public String newUser() {
 		return "NewUser";
@@ -29,6 +35,11 @@ public class UserController {
 	public String saveUser(UserEntity userEntity) {
 
 		userEntity.setCreatedAt(LocalDate.now());
+		
+		String encodedPassword = passwordEncoder.encode(userEntity.getPassword());
+		userEntity.setPassword(encodedPassword);
+		
+		
 		userRepository.save(userEntity); // insert
 
 		return "redirect:/listUser";// url
@@ -77,6 +88,20 @@ public class UserController {
 			// error
 		}
 		return "EditUser";
+	}
+	
+	@PostMapping("updateUser")
+	public String updateUser(UserEntity user) {
+		
+		UserEntity oldUser = userRepository.findById(user.getUserId()).get();
+
+		oldUser.setFirstName(user.getFirstName());
+		oldUser.setLastName(user.getLastName());
+
+		userRepository.save(oldUser);
+		
+		
+		return "redirect:/listUser";
 	}
 
 }

@@ -37,8 +37,6 @@
 
 					<!-- Hidden fields (NOT editable) -->
 					<input type="hidden" name="userId" value="${user.userId}">
-					<input type="hidden" name="createdAt" value="${user.createdAt}">
-					<input type="hidden" name="email" value="${user.email}">
 
 					<div class="row g-3">
 
